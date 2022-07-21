@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class BankSystem{
@@ -7,22 +8,8 @@ public class BankSystem{
     public static Vector<Employee> employees;
     public static Vector<Admin> admins;
 
-    public static boolean transferToClient(double amount, int clientId){
-        boolean success = false;
-        for (Client c :
-                clients) {
-            if (clientId == c.getId()) {
-                c.deposit(amount); success = true;
-            }
-        }
-        if(!success) System.out.println("Transfer Failed. Couldn't find client with id '" + clientId + "'");
-        return success;
-    }
-
-    File clientsFile, employeeFile, adminFile;
-    Client loggedInClient;
-    Employee loggedInEmployee;
-    Admin loggedInAdmin;
+    public static File clientsFile, employeeFile, adminFile;
+    User loggedIn;
     private void getFiles(){
         clientsFile = new File("clients.txt");
         employeeFile = new File("employee.txt");
@@ -35,6 +22,7 @@ public class BankSystem{
             e.printStackTrace();
         }
     }
+    
     public static void main(String[] args) {
 
     }

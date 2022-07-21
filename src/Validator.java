@@ -1,8 +1,8 @@
 public class Validator {
-    static boolean nameIsValid(String name){
+    static boolean isValidName(String name){
         return name.matches("[a-zA-Z ]+") && lengthInRange(name, 5, 20);
     }
-    public static boolean pinCodeIsValid(String pin_code){
+    public static boolean isValidPinCode(String pin_code){
         if (pin_code.length() != 4){
             System.out.println("Pin code invalid. Length should be 4.");
             return false;
@@ -12,6 +12,9 @@ public class Validator {
             return false;
         }
         return true;
+    }
+    static boolean isNumerical(String string){
+        return string.matches("\\d+");
     }
     static boolean lengthInRange(String string, int min, int max){
         return inRange(string.length(), min, max);

@@ -1,13 +1,12 @@
 public class Employee extends User{
-    String name;
-    int id;
     String password;
     double salary;
+    final static double salaryMin = 5000;
 
     public void display() {
-        System.out.println("Employee: " + name +
-                "\n\tid=" + id +
-                "\n\tsalary=" + salary);
+        System.out.println("Employee: " + getName() +
+                "\n\tid: " + getId() +
+                "\n\tsalary: " + salary);
     }
 
     public void setPassword(String password) {
@@ -17,10 +16,19 @@ public class Employee extends User{
             this.password = password;
     }
 
-    public void setSalary(double salary){
-        boolean valid = salary >= 5000;
+    public boolean setSalary(double salary){
+        if(salary < salaryMin){
+            System.out.println("Operation failed. Salary cannot go below $" + salaryMin);
+            return false;
+        }
+        this.salary = salary;
+        return true;
+    }
 
-        if(valid)
-            this.salary = salary;
+    public String toString(){
+        String result = super.toString();
+        return result +
+                salary + '\n' +
+                password + '\n';
     }
 }

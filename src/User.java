@@ -1,9 +1,9 @@
 abstract public class User {
-    String name;
-    int id;
+    private String name;
+    private int id;
 
     public boolean setName(String name) {
-        boolean valid = Validator.nameIsValid(name);
+        boolean valid = Validator.isValidName(name);
 
         if(valid)
             this.name = name;
@@ -18,10 +18,16 @@ abstract public class User {
     public int getId() {
         return id;
     }
-
+    public void setId(int id) {this.id = id;}
     public String currency(double value){
         return String.format("$%.2f", value);
     }
 
     abstract void display();
+
+    @Override
+    public String toString() {
+        return id + '\n' +
+                name + '\n';
+    }
 }
