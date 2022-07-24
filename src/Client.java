@@ -3,6 +3,9 @@ public class Client extends User{
     private double balance;
     private final double balanceMin = 1500;
 
+    public String balanceAsString(){
+        return String.format("%.2f", balance);
+    }
     public void deposit(double amount){
         setBalance(balance + amount);
         System.out.println("Deposit successful.\nYour new balance is: " + currency(balance));
@@ -15,16 +18,11 @@ public class Client extends User{
         if(setBalance(balance - amount))
             System.out.printf("Withdrawal Successful. \n Your new balance is: " + currency(balance));
     }
-    public void transferTo(double amount, int clientId){
-        boolean transferValid = setBalance(this.balance - amount);
-        if(!transferValid) return;
-        ClientManager.transferToClient(amount, clientId);
-    }
     public void checkBalance(){
         System.out.println("Your current balance is: " + currency(balance));
     }
     public void display() {
-        System.out.println("Client:" + getName() +
+        System.out.println("Name:" + getName() +
                 "\n\tid: " + getId() +
                 "\n\tbalance: " + currency(balance));
     }
@@ -48,6 +46,10 @@ public class Client extends User{
         }
         this.balance = balance;
         return true;
+    }
+
+    public String getPin_code() {
+        return pin_code;
     }
 
     @Override

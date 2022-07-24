@@ -13,7 +13,7 @@ public class Validator {
         }
         return true;
     }
-    static boolean isNumerical(String string){
+    static boolean isNumber(String string){
         return string.matches("\\d+");
     }
     static boolean lengthInRange(String string, int min, int max){

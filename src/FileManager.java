@@ -1,15 +1,20 @@
-import jdk.jfr.FlightRecorderListener;
-
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class FileManager extends DataSourceInterface{
+    public static Vector<Employee> employees;
+    public static Vector<Admin> admins;
+    public static File adminFile;
+    public static File clientsFile;
+    public static File employeeFile;
+
     @Override
     void addClient(Client client) {
         try {
-            FileWriter writer = new FileWriter(BankSystem.clientsFile);
+            FileWriter writer = new FileWriter(clientsFile);
             writer.write(client.toString());
             writer.close();
         } catch (IOException e) {
@@ -20,7 +25,7 @@ public class FileManager extends DataSourceInterface{
     @Override
     void addEmployee(Employee employee) {
         try {
-            FileWriter writer = new FileWriter(BankSystem.employeeFile);
+            FileWriter writer = new FileWriter(employeeFile);
             writer.write(employee.toString());
             writer.close();
         } catch (IOException e) {
@@ -31,7 +36,7 @@ public class FileManager extends DataSourceInterface{
     @Override
     void addAdmin(Admin admin) {
         try {
-            FileWriter writer = new FileWriter(BankSystem.adminFile);
+            FileWriter writer = new FileWriter(adminFile);
             writer.write(admin.toString());
             writer.close();
         } catch (IOException e) {
@@ -43,7 +48,7 @@ public class FileManager extends DataSourceInterface{
     Vector<Client> getAllClients() {
         Vector<Client> clients = new Vector<>();
         try{
-            Scanner scanner = new Scanner(BankSystem.clientsFile);
+            Scanner scanner = new Scanner(clientsFile);
 
             while (scanner.hasNext()) {
                 Client client = new Client();
@@ -63,7 +68,7 @@ public class FileManager extends DataSourceInterface{
     Vector<Employee> getAllEmployees() {
         Vector<Employee> employees = new Vector<>();
         try{
-            Scanner scanner = new Scanner(BankSystem.employeeFile);
+            Scanner scanner = new Scanner(employeeFile);
 
 
             while (scanner.hasNext()) {
@@ -85,7 +90,7 @@ public class FileManager extends DataSourceInterface{
     Vector<Admin> getAllAdmins() {
         Vector<Admin> admins = new Vector<>();
         try{
-            Scanner scanner = new Scanner(BankSystem.employeeFile);
+            Scanner scanner = new Scanner(employeeFile);
 
 
             while (scanner.hasNext()) {
@@ -108,7 +113,7 @@ public class FileManager extends DataSourceInterface{
     @Override
     void removeAllClients() {
         try {
-            FileWriter writer = new FileWriter(BankSystem.clientsFile, false);
+            FileWriter writer = new FileWriter(clientsFile, false);
             writer.write("");
             writer.close();
         } catch (IOException e) {
@@ -119,7 +124,7 @@ public class FileManager extends DataSourceInterface{
     @Override
     void removeAllEmployees() {
         try {
-            FileWriter writer = new FileWriter(BankSystem.employeeFile, false);
+            FileWriter writer = new FileWriter(employeeFile, false);
             writer.write("");
             writer.close();
         } catch (IOException e) {
@@ -130,7 +135,7 @@ public class FileManager extends DataSourceInterface{
     @Override
     void removeAllAdmins() {
         try {
-            FileWriter writer = new FileWriter(BankSystem.adminFile, false);
+            FileWriter writer = new FileWriter(adminFile, false);
             writer.write("");
             writer.close();
         } catch (IOException e) {
