@@ -1,29 +1,20 @@
 import java.util.Scanner;
 import java.util.Vector;
 
-public class ClientManager {
+public class ClientManager extends UserManager{
     Client loggedIn = null;
     Scanner scanner = new Scanner(System.in);
     Input input = new Input();
-    FileManager fileManager = new FileManager();
-    Vector<Client> clients = fileManager.getAllClients();
+    static Vector<Client> clients;
 
-    public boolean transferAmount(Client sender, double amount, int recipientId){
-        boolean success = sender.setBalance(sender.getBalance() - amount);
-        if(!success) {
-            System.out.println("Transfer failed. Balance not sufficient");
-            return false;
-        }
-        success = false;
-        for (Client c :
-                clients) {
-            if (recipientId  == c.getId()) {
-                c.deposit(amount); success = true; break;
-            }
-        }
-        if(success) System.out.println("Transfer successful. Your new balance is: " + loggedIn.balanceAsString());
-        else System.out.println("Transfer Failed. Couldn't find client with id '" + recipientId + "'");
-        return success;
+    ClientManager(){
+        clients = BankSystem.fileManager.getAllClients();
+        if(clients.size() > 0)  Client.nextId = clients.get(clients.size()-1).getId() + 3;
+        else Client.nextId = 2;
+    }
+
+    void setUser(User user) {
+        loggedIn = (Client) user;
     }
 
     public boolean clientExists(int clientId){
@@ -38,44 +29,10 @@ public class ClientManager {
         return exists;
     }
 
-    private Client Login(int id, String pinCode){
-        Client client = null;
-        for (Client c :
-                clients) {
-            if (c.getId() == id && c.getPin_code() == pinCode) {
-                client = c;
-                break;
-            }
-        }
-        return client;
-    }
-
-    public void printLoginMenu(){
-        System.out.println("Welcome to the Bank!" +
-                "\nPlease Login:");
-        boolean keepgoing = true;
-        while(keepgoing) {
-            int id = -1; String pinCode = "";
-            System.out.println("Id: ");
-            id = input.getInt();
-
-            System.out.println("PIN code: ");
-            pinCode = input.getPinCode();
-
-            loggedIn = Login(id, pinCode);
-            if (loggedIn != null) {
-                keepgoing = false;
-            } else {
-                System.out.println("Id or pin code incorrect. Pleases try again.");
-            }
-        }
-        printClientMenu();
-    }
-
-    public void printClientMenu(){
+    public void printMenu(){
         boolean keepgoing = true;
         while (keepgoing){
-            System.out.println("Choose an option: " +
+            System.out.println("Choose an option:\n" +
                     "1- Display my info\n" +
                     "2- Update my PIN code\n" +
                     "3- Withdraw\n" +
@@ -86,7 +43,7 @@ public class ClientManager {
             int choice = input.getInt();
             switch (choice){
                 case 1:
-                    displayClientDetails();
+                    displayInfo();
                     break;
                 case 2:
                     updatePinCode();
@@ -107,19 +64,20 @@ public class ClientManager {
         }
     }
 
-    void displayClientDetails(){
+    void displayInfo(){
         loggedIn.display();
     }
     void updatePinCode(){
         System.out.println("Please enter your current PIN code: ");
         String currentPinCode = input.getPinCode();
-        if(currentPinCode != loggedIn.getPin_code()) {
+        if(!currentPinCode.equals(loggedIn.getPin_code())) {
             System.out.println("Operation failed due to wrong PIN code. Please try again");
             return;
         }
         System.out.println("Please enter your new pinCode: ");
         String newPinCode = input.getPinCode();
         loggedIn.setPinCode(newPinCode);
+        System.out.println("New PIN code set.");
     }
     void promptWithdraw(){
         System.out.println("Please enter the amount you want to withdraw:");
@@ -138,6 +96,22 @@ public class ClientManager {
         System.out.println("Please enter the Id of the recipient client: ");
         int recipientId = input.getInt("Id");
 
-
+        transferAmount(loggedIn, amount, recipientId);
+    }
+    public boolean transferAmount(Client sender, double amount, int recipientId){
+        boolean success = sender.setBalance(sender.getBalance() - amount);
+        if(!success) {
+            return false;
+        }
+        success = false;
+        for (Client c :
+                clients) {
+            if (recipientId  == c.getId()) {
+                c.setBalance(c.getBalance() - amount); success = true; break;
+            }
+        }
+        if(success) System.out.println("Transfer successful. Your new balance is: " + loggedIn.currency(loggedIn.getBalance()));
+        else System.out.println("Transfer Failed. Couldn't find client#" + recipientId);
+        return success;
     }
 }

@@ -11,6 +11,23 @@ public class FileManager extends DataSourceInterface{
     public static File clientsFile;
     public static File employeeFile;
 
+    FileManager(){
+        prepareFiles();
+    }
+
+    void prepareFiles(){
+        clientsFile = new File("clients.txt");
+        employeeFile = new File("employee.txt");
+        adminFile = new File("admin.txt");
+        try{
+            clientsFile.createNewFile();
+            employeeFile.createNewFile();
+            adminFile.createNewFile();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     void addClient(Client client) {
         try {
@@ -57,6 +74,8 @@ public class FileManager extends DataSourceInterface{
                 client.setName(scanner.nextLine());
                 client.setBalance(Double.parseDouble(scanner.nextLine()));
                 client.setPinCode(scanner.nextLine());
+                //Push client to clients vector
+                clients.add(client);
             }
         } catch (IOException e) {
             e.printStackTrace();

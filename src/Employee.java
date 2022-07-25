@@ -25,6 +25,11 @@ public class Employee extends User{
         return true;
     }
 
+    @Override
+    void setManager() {
+        System.out.println("this does nothing");
+    }
+
     public String toString(){
         String result = super.toString();
         return result +

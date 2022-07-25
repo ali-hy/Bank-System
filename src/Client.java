@@ -1,22 +1,21 @@
 public class Client extends User{
+    static int nextId;
     private String pin_code;
     private double balance;
     private final double balanceMin = 1500;
 
-    public String balanceAsString(){
-        return String.format("%.2f", balance);
+    Client(){
+        setId(nextId);
+        nextId += 3;
     }
+
     public void deposit(double amount){
         setBalance(balance + amount);
         System.out.println("Deposit successful.\nYour new balance is: " + currency(balance));
     }
     public void withdraw(double amount){
-        if(amount > balance){
-            System.out.println("Withdrawal failed due to in sufficient funds.\n Your Balance is:" + currency(balance));
-        }
-
         if(setBalance(balance - amount))
-            System.out.printf("Withdrawal Successful. \n Your new balance is: " + currency(balance));
+            System.out.println("Withdrawal Successful. \nYour new balance is: " + currency(balance));
     }
     public void checkBalance(){
         System.out.println("Your current balance is: " + currency(balance));
@@ -46,6 +45,10 @@ public class Client extends User{
         }
         this.balance = balance;
         return true;
+    }
+
+    public void setManager() {
+        super.setManager(BankSystem.clientManager);
     }
 
     public String getPin_code() {

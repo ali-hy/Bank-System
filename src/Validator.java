@@ -4,11 +4,11 @@ public class Validator {
     }
     public static boolean isValidPinCode(String pin_code){
         if (pin_code.length() != 4){
-            System.out.println("Pin code invalid. Length should be 4.");
+//            System.out.println("Pin code invalid. Length should be 4.");
             return false;
         }
         if(!pin_code.matches("\\d+")){
-            System.out.println("Pin code invalid. Should only contain digits.");
+//            System.out.println("Pin code invalid. Should only contain digits.");
             return false;
         }
         return true;
